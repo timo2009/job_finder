@@ -1,0 +1,34 @@
+<!-- templates/layout.html -->
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Mein Profil{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">  <!-- Dein CSS-Stylesheet -->
+
+</head>
+<body>
+<nav class="navbar">
+    <ul>
+        <li><a href="{% url 'get_recommendation' %}">Job finden</a></li>
+        <li><a href="{% url 'submit_profile' %}">KI trainieren</a></li>
+        {% if user.is_authenticated and user.is_staff %}
+            <li><a href="{% url 'trigger_training' %}">Daten auf KI übertragen (Admin)</a></li>
+        {% endif %}
+        <li><a href="/admin">Admin</a></li>
+    </ul>
+</nav>
+
+
+    <div class="container">
+        {% block content %}
+        <!-- Der Inhalt der einzelnen Seiten wird hier eingefügt -->
+        {% endblock %}
+    </div>
+    <footer>
+        <p>&copy; 2024 Timo Streich, JobFinder</p>
+    </footer>
+</body>
+</html>

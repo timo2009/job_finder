@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+
+{% block title %}KI trainieren{% endblock %}
+
+{% block content %}
+        <header>
+            <h1>Empfohlener Job</h1>
+        </header>
+
+        <div class="job-card">
+            <h2 id="job-title">{{ recommended_job }}</h2>
+        </div>
+        <a class="submit-button" href="{% url 'get_recommendation' %}">zurück</a>
+    </div>
+{% endblock %}

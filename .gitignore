@@ -1,0 +1,30 @@
+# Python Bytecode
+__pycache__/
+*.py[cod]
+
+# Virtuelle Umgebungen
+.venv/
+env/
+venv/
+
+# Django spezifisch
+*.log
+*.sqlite3
+db.sqlite3
+
+# AI Modelle
+model.joblib
+vectorizer.joblib
+
+# Cache und andere
+.cache/
+*.egg-info/
+dist/
+build/
+
+# IDE spezifisch
+.idea/
+
+# Systemdateien
+.DS_Store
+Thumbs.db

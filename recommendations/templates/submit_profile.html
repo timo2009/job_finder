@@ -1,0 +1,215 @@
+{% extends "layout.html" %}
+
+{% block title %}KI trainieren{% endblock %}
+
+{% block content %}
+    <script>
+        // Your existing JavaScript code
+        let skills = JSON.parse('{{ skills|safe }}');
+        let interests = JSON.parse('{{ interests|safe }}');
+        let funs = JSON.parse('{{ funs|safe }}');
+
+        const selectedSkills = new Set();
+        const selectedInterests = new Set();
+        const selectedFuns = new Set();
+
+        function addToSelected(item, type) {
+            item = item.trim();
+            if (item === '') return;
+
+            let selectedSet;
+            let displayFunction;
+            let inputElement;
+
+            if (type === 'skills') {
+                selectedSet = selectedSkills;
+                displayFunction = updateSelectedSkillsDisplay;
+                inputElement = document.querySelector('#skills-container input');
+            } else if (type === 'interests') {
+                selectedSet = selectedInterests;
+                displayFunction = updateSelectedInterestsDisplay;
+                inputElement = document.querySelector('#interests-container input');
+            } else if (type === 'funs') {
+                selectedSet = selectedFuns;
+                displayFunction = updateSelectedFunsDisplay;
+                inputElement = document.querySelector('#funs-container input');
+            }
+
+            if (!selectedSet.has(item)) {
+                selectedSet.add(item);
+                displayFunction();
+                updateHiddenInputs();
+                inputElement.value = ''; // Reset input after adding
+                console.log(`Added ${item} to ${type}`);
+            } else {
+                console.log(`${item} is already selected in ${type}`);
+            }
+        }
+
+        function updateSelectedSkillsDisplay() {
+            const display = document.getElementById("selected-skills");
+            display.innerHTML = '';
+            selectedSkills.forEach(skill => {
+                const skillDiv = document.createElement("div");
+                skillDiv.className = "selected-item";
+                skillDiv.textContent = skill;
+
+                const removeButton = document.createElement("button");
+                removeButton.className = "remove-button";
+                removeButton.textContent = "✖";
+                removeButton.onclick = () => {
+                    selectedSkills.delete(skill);
+                    updateSelectedSkillsDisplay();
+                    updateHiddenInputs();
+                };
+
+                skillDiv.appendChild(removeButton);
+                display.appendChild(skillDiv);
+            });
+        }
+
+        function updateSelectedInterestsDisplay() {
+            const display = document.getElementById("selected-interests");
+            display.innerHTML = '';
+            selectedInterests.forEach(interest => {
+                const interestDiv = document.createElement("div");
+                interestDiv.className = "selected-item";
+                interestDiv.textContent = interest;
+
+                const removeButton = document.createElement("button");
+                removeButton.className = "remove-button";
+                removeButton.textContent = "✖";
+                removeButton.onclick = () => {
+                    selectedInterests.delete(interest);
+                    updateSelectedInterestsDisplay();
+                    updateHiddenInputs();
+                };
+
+                interestDiv.appendChild(removeButton);
+                display.appendChild(interestDiv);
+            });
+        }
+
+        function updateSelectedFunsDisplay() {
+            const display = document.getElementById("selected-funs");
+            display.innerHTML = '';
+            selectedFuns.forEach(fun => {
+                const funDiv = document.createElement("div");
+                funDiv.className = "selected-item";
+                funDiv.textContent = fun;
+
+                const removeButton = document.createElement("button");
+                removeButton.className = "remove-button";
+                removeButton.textContent = "✖";
+                removeButton.onclick = () => {
+                    selectedFuns.delete(fun);
+                    updateSelectedFunsDisplay();
+                    updateHiddenInputs();
+                };
+
+                funDiv.appendChild(removeButton);
+                display.appendChild(funDiv);
+            });
+        }
+
+        function updateHiddenInputs() {
+            document.getElementById("hidden-skills").value = Array.from(selectedSkills).join(',');
+            document.getElementById("hidden-interests").value = Array.from(selectedInterests).join(',');
+            document.getElementById("hidden-funs").value = Array.from(selectedFuns).join(',');
+        }
+
+        function showSuggestions(input, type) {
+            const suggestionsContainer = document.getElementById(`${type}-suggestions`);
+            suggestionsContainer.innerHTML = '';
+            suggestionsContainer.style.display = 'none';
+
+            const inputValue = input.value.toLowerCase();
+            let suggestions = [];
+
+            if (type === 'skills') {
+                suggestions = skills.filter(skill => skill.toLowerCase().includes(inputValue));
+            } else if (type === 'interests') {
+                suggestions = interests.filter(interest => interest.toLowerCase().includes(inputValue));
+            } else if (type === 'funs') {
+                suggestions = funs.filter(fun => fun.toLowerCase().includes(inputValue));
+            }
+
+            if (suggestions.length > 0) {
+                suggestions.forEach(suggestion => {
+                    const suggestionItem = document.createElement("div");
+                    suggestionItem.className = "suggestion-item";
+                    suggestionItem.textContent = suggestion;
+
+                    suggestionItem.onclick = () => {
+                        console.log(`Suggestion clicked: ${suggestion}`);
+                        addToSelected(suggestion, type);
+                        suggestionsContainer.style.display = 'none'; // Hide suggestions after selection
+                    };
+
+                    suggestionsContainer.appendChild(suggestionItem);
+                });
+                suggestionsContainer.style.display = 'block'; // Show suggestions
+            }
+        }
+
+        function hideSuggestions(type) {
+            {#const suggestionsContainer = document.getElementById(`${type}-suggestions`);#}
+            {#suggestionsContainer.style.display = 'none'; // Hide suggestions#}
+        }
+    </script>
+
+    <h2>Persönlichkeitsprofil und Job-Eingabe</h2>
+    <form method="post">
+        {% csrf_token %}
+
+        <label>Was kann ich?</label>
+        <div id="selected-skills"></div>
+        <div id="skills-container" style="position: relative;">
+            <input type="text" placeholder="Neue Fähigkeit hinzufügen" class="dynamic-input"
+                   oninput="showSuggestions(this, 'skills')" onblur="hideSuggestions('skills')">
+            <div id="skills-suggestions" class="suggestions"></div>
+        </div>
+        <input type="hidden" name="skills" id="hidden-skills" value="">
+        <button type="button" onclick="addToSelected(document.querySelector('#skills-container input').value, 'skills')">Fähigkeiten hinzufügen</button><br>
+
+        <label>Was interessiert mich?</label>
+        <div id="selected-interests"></div>
+        <div id="interests-container" style="position: relative;">
+            <input type="text" placeholder="Neues Interesse hinzufügen" class="dynamic-input"
+                   oninput="showSuggestions(this, 'interests')" onblur="hideSuggestions('interests')">
+            <div id="interests-suggestions" class="suggestions"></div>
+        </div>
+        <input type="hidden" name="interests" id="hidden-interests" value="">
+        <button type="button" onclick="addToSelected(document.querySelector('#interests-container input').value, 'interests')">Interessen hinzufügen</button><br>
+
+        <label>Was mache ich gerne?</label>
+        <div id="selected-funs"></div>
+        <div id="funs-container" style="position: relative;">
+            <input type="text" placeholder="Neue Spaß-Aktivität hinzufügen" class="dynamic-input"
+                   oninput="showSuggestions(this, 'funs')" onblur="hideSuggestions('funs')">
+            <div id="funs-suggestions" class="suggestions"></div>
+        </div>
+        <input type="hidden" name="funs" id="hidden-funs" value="">
+        <button type="button" onclick="addToSelected(document.querySelector('#funs-container input').value, 'funs')">Spaß-Aktivitäten hinzufügen</button><br>
+
+        <label>Zufriedenheit mit dem Job (Skala 1-10)</label>
+        <input type="range" name="satisfaction" class="slider" min="1" max="10" value="10" required>
+        <div style="text-align: center;">Aktuelle Zufriedenheit: <span id="satisfaction-value">10</span></div>
+
+        <label>Job-Titel:</label>
+        <input type="text" name="job_title" class="dynamic-input" placeholder="Job-Titel" required>
+
+        <button type="submit" class="submit-button">Profil speichern</button>
+    </form>
+
+    <script>
+        // Update satisfaction value display
+        const satisfactionSlider = document.querySelector('input[name="satisfaction"]');
+        const satisfactionValueDisplay = document.getElementById('satisfaction-value');
+
+        satisfactionSlider.addEventListener('input', () => {
+            satisfactionValueDisplay.textContent = satisfactionSlider.value;
+        });
+    </script>
+
+{% endblock %}

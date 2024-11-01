@@ -1,0 +1,231 @@
+/* style.css */
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+.navbar {
+    background-color: #000; /* Hintergrundfarbe der Navbar auf Schwarz */
+    padding: 25px; /* Innenabstand der Navbar */
+}
+
+.navbar ul {
+    list-style: none; /* Keine Aufzählungszeichen */
+    padding: 0; /* Kein Innenabstand */
+    margin: 0; /* Kein Außenabstand */
+    display: flex; /* Flexbox für horizontale Anordnung */
+    justify-content: space-around; /* Gleicher Abstand zwischen den Links */
+}
+
+.navbar li {
+    display: inline; /* Inline-Darstellung der Listenelemente */
+}
+
+.navbar a {
+    color: white; /* Schriftfarbe der Links auf Weiß */
+    text-decoration: none; /* Keine Unterstreichung */
+    padding: 10px 15px; /* Innenabstand der Links */
+    transition: background-color 0.3s; /* Übergangseffekt für die Hintergrundfarbe */
+}
+
+.navbar a:hover {
+    background-color: #555; /* Hintergrundfarbe beim Hover */
+    border-radius: 5px; /* Abgerundete Ecken beim Hover */
+}
+
+.container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1, h2 {
+    text-align: center;
+    color: #007bff; /* Titelfarbe */
+}
+
+label {
+    display: block;
+    margin: 20px 0 5px;
+    font-weight: bold; /* Fettgedruckte Labels */
+}
+
+.dynamic-input {
+    width: calc(100% - 20px); /* Breite der Eingabefelder */
+    padding: 10px;
+    margin-bottom: 10px; /* Abstand nach unten */
+    border: 1px solid #ccc; /* Rahmen der Eingabefelder */
+    border-radius: 5px; /* Abgerundete Ecken */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Schatten für Eingabefelder */
+    transition: border-color 0.3s; /* Übergang für Rahmenfarbe */
+}
+
+.dynamic-input:focus {
+    border-color: #007bff; /* Rahmenfarbe bei Fokus */
+    outline: none; /* Kein Standard-Fokus-Rahmen */
+}
+
+button {
+    display: block;
+    margin: 20px auto; /* Zentrierte Buttons */
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff; /* Hintergrundfarbe der Buttons */
+    color: white; /* Schriftfarbe der Buttons */
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #0056b3; /* Dunklerer Farbton für den Button beim Hover */
+}
+.selected-item {
+    display: flex; /* Flexbox für die Anzeige ausgewählter Elemente */
+    justify-content: space-between; /* Platz zwischen den Elementen */
+    align-items: center; /* Vertikale Ausrichtung */
+    background-color: #e9ecef; /* Hintergrundfarbe der ausgewählten Elemente */
+    padding: 5px 10px; /* Reduziertes Padding für kleinere Buttons */
+    margin: 5px; /* Abstand zwischen den ausgewählten Elementen */
+    border-radius: 5px; /* Abgerundete Ecken */
+    font-size: 14px; /* Schriftgröße */
+    transition: background-color 0.3s; /* Übergangseffekt für die Hintergrundfarbe */
+    width: auto; /* Automatische Breite, um Platz zu sparen */
+    max-width: 300px; /* Maximale Breite, um sie kleiner zu halten */
+    cursor: pointer; /* Zeiger-Cursor */
+}
+
+.selected-item:hover {
+    background-color: #d0d7db; /* Dunklerer Farbton beim Hover */
+}
+
+.remove-button {
+    background: none; /* Kein Hintergrund für den Entfernen-Button */
+    border: none; /* Kein Rahmen für den Button */
+    color: #721c24; /* Farbe des Entfernungs-Buttons */
+    cursor: pointer; /* Zeiger-Cursor für den Button */
+    font-size: 14px; /* Kleinere Schriftgröße */
+    transition: color 0.3s; /* Übergangseffekt für die Farbe */
+}
+
+.remove-button:hover {
+    color: #c82333; /* Farbe beim Hover */
+}
+
+/* Optionale zusätzliche Styles für das Layout */
+.selected-item-container {
+    display: flex; /* Flexbox für die Container der ausgewählten Elemente */
+    flex-direction: column; /* Vertikale Anordnung */
+    align-items: flex-start; /* Ausrichtung links */
+    margin: 10px 0; /* Abstand nach oben und unten */
+}
+
+
+.alert {
+    margin: 20px auto;
+    max-width: 600px;
+    padding: 10px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+
+.alert-success {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+}
+
+.alert-error {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+
+.slider {
+    width: 100%; /* Breite des Sliders */
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #000; /* Hintergrundfarbe der Fußzeile auf Schwarz */
+    color: white; /* Schriftfarbe der Fußzeile auf Weiß */
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+.slider {
+    -webkit-appearance: none; /* Für Webkit-Browser */
+    width: 100%; /* Volle Breite des Sliders */
+    height: 10px; /* Höhe des Sliders */
+    border-radius: 5px; /* Abgerundete Ecken */
+    background: #ddd; /* Hintergrundfarbe des Sliders */
+    outline: none; /* Kein Standard-Rahmen */
+    transition: background 0.3s; /* Übergangseffekt für die Hintergrundfarbe */
+}
+
+.slider:hover {
+    background: #ccc; /* Hintergrundfarbe beim Hover */
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none; /* Für Webkit-Browser */
+    appearance: none; /* Standard-Aussehen entfernen */
+    width: 20px; /* Breite des Daumens */
+    height: 20px; /* Höhe des Daumens */
+    border-radius: 50%; /* Runde Form */
+    background: #007bff; /* Daumenfarbe */
+    cursor: pointer; /* Cursor ändern, wenn darübergefahren wird */
+    transition: background 0.3s; /* Übergang für die Daumenfarbe */
+}
+
+.slider::-webkit-slider-thumb:hover {
+    background: #0056b3; /* Daumenfarbe beim Hover */
+}
+
+.slider::-moz-range-thumb {
+    width: 20px; /* Breite des Daumens */
+    height: 20px; /* Höhe des Daumens */
+    border-radius: 50%; /* Runde Form */
+    background: #007bff; /* Daumenfarbe */
+    cursor: pointer; /* Cursor ändern, wenn darübergefahren wird */
+    transition: background 0.3s; /* Übergang für die Daumenfarbe */
+}
+
+.slider::-moz-range-thumb:hover {
+    background: #0056b3; /* Daumenfarbe beim Hover */
+}
+
+/* Zusätzliche Styles für die Anzeige der Zufriedenheit */
+.satisfaction-display {
+    text-align: center; /* Zentrierte Anzeige */
+    font-size: 16px; /* Schriftgröße */
+    margin-top: 10px; /* Abstand nach oben */
+    color: #333; /* Textfarbe */
+    font-weight: bold; /* Fettdruck für bessere Lesbarkeit */
+}
+.submit-button {
+    display: block;
+    margin: 20px auto; /* Zentrierte Buttons */
+    padding: 10px 20px; /* Innenabstand */
+    border: none; /* Kein Rahmen */
+    border-radius: 5px; /* Abgerundete Ecken */
+    background-color: #dc3545; /* Rote Hintergrundfarbe */
+    color: white; /* Schriftfarbe */
+    font-size: 16px; /* Schriftgröße */
+    cursor: pointer; /* Zeiger-Cursor */
+    transition: background-color 0.3s; /* Übergangseffekt für die Hintergrundfarbe */
+}
+
+.submit-button:hover {
+    background-color: #c82333; /* Dunklerer Rotton beim Hover */
+}

@@ -162,32 +162,32 @@
         <label>Was kann ich?</label>
         <div id="selected-skills"></div>
         <div id="skills-container" style="position: relative;">
-            <input type="text" placeholder="Neue Fähigkeit hinzufügen" class="dynamic-input"
+            <input type="text" placeholder="Was kann ich?" class="dynamic-input"
                    oninput="showSuggestions(this, 'skills')" onblur="hideSuggestions('skills')">
             <div id="skills-suggestions" class="suggestions"></div>
         </div>
         <input type="hidden" name="skills" id="hidden-skills" value="">
-        <button type="button" onclick="addToSelected(document.querySelector('#skills-container input').value, 'skills')">Fähigkeiten hinzufügen</button><br>
+        <button type="button" onclick="addToSelected(document.querySelector('#skills-container input').value, 'skills')">+</button><br>
 
         <label>Was interessiert mich?</label>
         <div id="selected-interests"></div>
         <div id="interests-container" style="position: relative;">
-            <input type="text" placeholder="Neues Interesse hinzufügen" class="dynamic-input"
+            <input type="text" placeholder="Was interessiert mich?" class="dynamic-input"
                    oninput="showSuggestions(this, 'interests')" onblur="hideSuggestions('interests')">
             <div id="interests-suggestions" class="suggestions"></div>
         </div>
         <input type="hidden" name="interests" id="hidden-interests" value="">
-        <button type="button" onclick="addToSelected(document.querySelector('#interests-container input').value, 'interests')">Interessen hinzufügen</button><br>
+        <button type="button" onclick="addToSelected(document.querySelector('#interests-container input').value, 'interests')">+</button><br>
 
         <label>Was macht mir Spaß?</label>
         <div id="selected-funs"></div>
         <div id="funs-container" style="position: relative;">
-            <input type="text" placeholder="Neues Spaß-Element hinzufügen" class="dynamic-input"
+            <input type="text" placeholder="Was macht mir Spaß?" class="dynamic-input"
                    oninput="showSuggestions(this, 'funs')" onblur="hideSuggestions('funs')">
             <div id="funs-suggestions" class="suggestions"></div>
         </div>
         <input type="hidden" name="funs" id="hidden-funs" value="">
-        <button type="button" onclick="addToSelected(document.querySelector('#funs-container input').value, 'funs')">Spaß-Elemente hinzufügen</button><br>
+        <button type="button" onclick="addToSelected(document.querySelector('#funs-container input').value, 'funs')">+</button><br>
 
         <button type="submit" class="submit-button">Empfehlung erhalten</button>
     </form>

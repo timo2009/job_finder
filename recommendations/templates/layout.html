@@ -24,11 +24,14 @@
 
     <div class="container">
         {% block content %}
-        <!-- Der Inhalt der einzelnen Seiten wird hier eingefügt -->
+
         {% endblock %}
     </div>
     <footer>
-        <p>&copy; 2024 Timo Streich, JobFinder</p>
+        <p style="flex-grow: 1;"> <!-- Füllt den verfügbaren Platz -->
+            <i class="footer-text">&copy; 2024 Timo Streich, JobFinder</i>
+        </p>
+        <a class="footer-link" href="{% url 'impressum' %}">Impressum & Datenschutzerklärung</a>
     </footer>
 </body>
 </html>

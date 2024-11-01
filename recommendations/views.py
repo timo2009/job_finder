@@ -136,3 +136,7 @@ def get_recommendation(request):
         'interests': json.dumps(interests),
         'funs': json.dumps(funs)
     })
+
+def impressum(request):
+
+    return render(request, 'impressum.html', {})

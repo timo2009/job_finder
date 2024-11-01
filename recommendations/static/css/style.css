@@ -6,11 +6,12 @@ body {
     margin: 0;
     padding: 0;
     color: #333;
+    overflow-x: hidden; /* Verhindert horizontales Scrollen */
 }
 
 .navbar {
     background-color: #000; /* Hintergrundfarbe der Navbar auf Schwarz */
-    padding: 25px; /* Innenabstand der Navbar */
+    padding: 15px; /* Reduzierter Innenabstand der Navbar für Mobilgeräte */
 }
 
 .navbar ul {
@@ -18,7 +19,8 @@ body {
     padding: 0; /* Kein Innenabstand */
     margin: 0; /* Kein Außenabstand */
     display: flex; /* Flexbox für horizontale Anordnung */
-    justify-content: space-around; /* Gleicher Abstand zwischen den Links */
+    justify-content: space-between; /* Gleicher Abstand zwischen den Links */
+    flex-wrap: wrap; /* Zeilenumbruch für Mobilgeräte */
 }
 
 .navbar li {
@@ -30,6 +32,7 @@ body {
     text-decoration: none; /* Keine Unterstreichung */
     padding: 10px 15px; /* Innenabstand der Links */
     transition: background-color 0.3s; /* Übergangseffekt für die Hintergrundfarbe */
+    font-size: 14px; /* Schriftgröße anpassen für Mobilgeräte */
 }
 
 .navbar a:hover {
@@ -39,21 +42,27 @@ body {
 
 .container {
     max-width: 800px;
-    margin: 40px auto;
-    padding: 20px;
+    margin: 20px auto; /* Reduzierter Abstand für Mobilgeräte */
+    padding: 15px; /* Reduzierter Innenabstand für Mobilgeräte */
     background: white;
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-h1, h2 {
+h1 {
     text-align: center;
     color: #007bff; /* Titelfarbe */
+    font-size: 24px; /* Größere Schriftgröße für Desktop */
+}
+h2 {
+    text-align: center;
+    color: #23b10a; /* Titelfarbe */
+    font-size: 20px; /* Größere Schriftgröße für Desktop */
 }
 
 label {
     display: block;
-    margin: 20px 0 5px;
+    margin: 15px 0 5px; /* Reduzierter Abstand für Mobilgeräte */
     font-weight: bold; /* Fettgedruckte Labels */
 }
 
@@ -74,7 +83,6 @@ label {
 
 button {
     display: block;
-    margin: 20px auto; /* Zentrierte Buttons */
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
@@ -88,6 +96,7 @@ button {
 button:hover {
     background-color: #0056b3; /* Dunklerer Farbton für den Button beim Hover */
 }
+
 .selected-item {
     display: flex; /* Flexbox für die Anzeige ausgewählter Elemente */
     justify-content: space-between; /* Platz zwischen den Elementen */
@@ -128,7 +137,6 @@ button:hover {
     margin: 10px 0; /* Abstand nach oben und unten */
 }
 
-
 .alert {
     margin: 20px auto;
     max-width: 600px;
@@ -153,14 +161,44 @@ button:hover {
     width: 100%; /* Breite des Sliders */
 }
 
+.suggestions {
+    line-height: 1.8;
+}
+.suggestion-item {
+    padding: 5px;
+    border-radius: 5px; /* Abgerundete Ecken */
+    cursor: pointer;
+    margin-bottom: 5px;
+}
+.suggestion-item:hover {
+    background-color: #7f8c8d;
+}
+
+
 footer {
-    text-align: center;
-    padding: 20px;
-    background-color: #000; /* Hintergrundfarbe der Fußzeile auf Schwarz */
-    color: white; /* Schriftfarbe der Fußzeile auf Weiß */
-    position: relative;
-    bottom: 0;
-    width: 100%;
+    background-color: #000; /* Schwarzer Hintergrund */
+    color: #fff; /* Weißer Text */
+    display: flex; /* Flexbox aktivieren */
+    justify-content: space-between; /* Platz zwischen den Elementen verteilen */
+    align-items: center; /* Vertikale Zentrierung */
+    padding: 20px 40px; /* Padding für den Footer */
+    width: 100%; /* Footer auf volle Breite */
+    box-sizing: border-box; /* Box-Modell anpassen, damit Padding nicht die Breite beeinflusst */
+}
+
+.footer-text {
+    font-style: italic; /* Kursivschrift für den Copyright-Text */
+    margin: 0; /* Kein Margin */
+}
+
+.footer-link {
+    color: #fff; /* Weißer Linktext */
+    text-decoration: none; /* Keine Unterstreichung */
+    margin-left: auto; /* Auto Margin, um den Link nach rechts zu schieben */
+}
+
+.footer-link:hover {
+    color: #f39c12; /* Farbänderung bei Hover */
 }
 
 .slider {
@@ -171,6 +209,28 @@ footer {
     background: #ddd; /* Hintergrundfarbe des Sliders */
     outline: none; /* Kein Standard-Rahmen */
     transition: background 0.3s; /* Übergangseffekt für die Hintergrundfarbe */
+}
+
+.left {
+    text-align: left;
+}
+
+.contact-info {
+    margin-bottom: 20px;
+}
+
+.date {
+    text-align: right;
+    font-style: italic;
+    color: #7f8c8d; /* Grauton für das Datum */
+}
+
+.impressum-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
 }
 
 .slider:hover {
@@ -213,6 +273,7 @@ footer {
     color: #333; /* Textfarbe */
     font-weight: bold; /* Fettdruck für bessere Lesbarkeit */
 }
+
 .submit-button {
     display: block;
     margin: 20px auto; /* Zentrierte Buttons */
@@ -228,4 +289,80 @@ footer {
 
 .submit-button:hover {
     background-color: #c82333; /* Dunklerer Rotton beim Hover */
+}
+
+/* Media Queries for Responsive Design */
+@media (max-width: 768px) {
+    .navbar {
+        padding: 10px; /* Further reduced padding for mobile */
+    }
+
+    .navbar a {
+        padding: 8px 12px; /* Reduced padding for links */
+        font-size: 12px; /* Smaller font size */
+    }
+
+    .container {
+        margin: 10px; /* Reduce margins for small screens */
+        padding: 10px; /* Reduce padding for small screens */
+    }
+
+    h1, h2 {
+        font-size: 20px; /* Smaller heading for mobile */
+    }
+
+    .dynamic-input {
+        padding: 8px; /* Smaller padding for inputs */
+    }
+
+    button {
+        padding: 8px 15px; /* Smaller button padding */
+        font-size: 14px; /* Smaller button font size */
+    }
+
+    .selected-item {
+        font-size: 12px; /* Smaller font size for selected items */
+    }
+
+    .alert {
+        margin: 15px auto; /* Reduce margin */
+    }
+
+    footer {
+        padding: 10px; /* Smaller padding in footer */
+    }
+}
+
+@media (max-width: 480px) {
+    .navbar {
+        flex-direction: column; /* Stack navbar items */
+        align-items: center; /* Center navbar items */
+    }
+
+    .navbar a {
+        padding: 10px; /* More padding for touch targets */
+        width: 100%; /* Make links full width */
+        text-align: center; /* Center text for mobile */
+    }
+
+    .container {
+        padding: 8px; /* Even smaller padding */
+    }
+
+    h1, h2 {
+        font-size: 18px; /* Smaller heading for very small screens */
+    }
+
+    .dynamic-input, button {
+        font-size: 14px; /* Uniform font size for inputs and buttons */
+    }
+
+    .selected-item {
+        font-size: 10px; /* Smaller font size for selected items */
+    }
+    button {
+        width: 50%;
+        margin-left: auto;
+        margin-right: auto;
+    }
 }

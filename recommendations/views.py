@@ -10,13 +10,10 @@ from celery.exceptions import OperationalError
 
 @staff_member_required  # Only for administrators
 def trigger_training(request):
-    print("start")
     if request.method == 'POST':
         try:
-            print("post")
             result = train_model.delay()  # Asynchronous call of the function
-            print(result)
-            messages.success(request, "Training has been successfully initiated!")  # Success message
+            messages.success(request, "Training has been successfully initiated! Result: " + str(result))  # Success message
         except OperationalError as e:
             messages.error(request, f"Celery Error: {str(e)}")  # Error message
         except Exception as e:
@@ -69,11 +66,13 @@ def submit_profile(request):
     skills = list(Skill.objects.values_list('name', flat=True))  # All skills
     interests = list(Interest.objects.values_list('name', flat=True))  # All interests
     funs = list(Fun.objects.values_list('name', flat=True))  # All fun activities
+    jobs = list(set(DreamJob.objects.values_list('job_title', flat=True)))  # Alle Titel sind einzigartig
 
     return render(request, 'submit_profile.html', {
         'skills': json.dumps(skills),
         'interests': json.dumps(interests),
-        'funs': json.dumps(funs)
+        'funs': json.dumps(funs),
+        'jobs': json.dumps(jobs)
     })
 
 

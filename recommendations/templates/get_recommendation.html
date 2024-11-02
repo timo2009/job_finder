@@ -123,29 +123,31 @@
 
             const inputValue = input.value.toLowerCase();
             let suggestions = [];
+            if (inputValue !== "") {
 
-            if (type === 'skills') {
-                suggestions = skills.filter(skill => skill.toLowerCase().includes(inputValue));
-            } else if (type === 'interests') {
-                suggestions = interests.filter(interest => interest.toLowerCase().includes(inputValue));
-            } else if (type === 'funs') {
-                suggestions = funs.filter(fun => fun.toLowerCase().includes(inputValue));
-            }
+                if (type === 'skills') {
+                    suggestions = skills.filter(skill => skill.toLowerCase().includes(inputValue));
+                } else if (type === 'interests') {
+                    suggestions = interests.filter(interest => interest.toLowerCase().includes(inputValue));
+                } else if (type === 'funs') {
+                    suggestions = funs.filter(fun => fun.toLowerCase().includes(inputValue));
+                }
 
-            if (suggestions.length > 0) {
-                suggestions.forEach(suggestion => {
-                    const suggestionItem = document.createElement("div");
-                    suggestionItem.className = "suggestion-item";
-                    suggestionItem.textContent = suggestion;
+                if (suggestions.length > 0) {
+                    suggestions.forEach(suggestion => {
+                        const suggestionItem = document.createElement("div");
+                        suggestionItem.className = "suggestion-item";
+                        suggestionItem.textContent = suggestion;
 
-                    suggestionItem.onclick = () => {
-                        addToSelected(suggestion, type);
-                        suggestionsContainer.style.display = 'none'; // Hide suggestions after selection
-                    };
+                        suggestionItem.onclick = () => {
+                            addToSelected(suggestion, type);
+                            suggestionsContainer.style.display = 'none'; // Hide suggestions after selection
+                        };
 
-                    suggestionsContainer.appendChild(suggestionItem);
-                });
-                suggestionsContainer.style.display = 'block'; // Show suggestions
+                        suggestionsContainer.appendChild(suggestionItem);
+                    });
+                    suggestionsContainer.style.display = 'block'; // Show suggestions
+                }
             }
         }
 
@@ -167,7 +169,10 @@
             <div id="skills-suggestions" class="suggestions"></div>
         </div>
         <input type="hidden" name="skills" id="hidden-skills" value="">
-        <button type="button" onclick="addToSelected(document.querySelector('#skills-container input').value, 'skills')">+</button><br>
+        <button type="button"
+                onclick="addToSelected(document.querySelector('#skills-container input').value, 'skills')">+
+        </button>
+        <br>
 
         <label>Was interessiert mich?</label>
         <div id="selected-interests"></div>
@@ -177,7 +182,10 @@
             <div id="interests-suggestions" class="suggestions"></div>
         </div>
         <input type="hidden" name="interests" id="hidden-interests" value="">
-        <button type="button" onclick="addToSelected(document.querySelector('#interests-container input').value, 'interests')">+</button><br>
+        <button type="button"
+                onclick="addToSelected(document.querySelector('#interests-container input').value, 'interests')">+
+        </button>
+        <br>
 
         <label>Was macht mir Spaß?</label>
         <div id="selected-funs"></div>
@@ -187,7 +195,9 @@
             <div id="funs-suggestions" class="suggestions"></div>
         </div>
         <input type="hidden" name="funs" id="hidden-funs" value="">
-        <button type="button" onclick="addToSelected(document.querySelector('#funs-container input').value, 'funs')">+</button><br>
+        <button type="button" onclick="addToSelected(document.querySelector('#funs-container input').value, 'funs')">+
+        </button>
+        <br>
 
         <button type="submit" class="submit-button">Empfehlung erhalten</button>
     </form>

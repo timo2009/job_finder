@@ -3,129 +3,175 @@
 {% block title %}KI trainieren{% endblock %}
 
 {% block content %}
-    <script>
-        // Your existing JavaScript code
-        let skills = JSON.parse('{{ skills|safe }}');
-        let interests = JSON.parse('{{ interests|safe }}');
-        let funs = JSON.parse('{{ funs|safe }}');
+<script>
+    let skills = JSON.parse('{{ skills|safe }}');
+    let interests = JSON.parse('{{ interests|safe }}');
+    let funs = JSON.parse('{{ funs|safe }}');
+    let jobTitles = JSON.parse('{{ jobs|safe }}');
 
-        const selectedSkills = new Set();
-        const selectedInterests = new Set();
-        const selectedFuns = new Set();
+    const selectedSkills = new Set();
+    const selectedInterests = new Set();
+    const selectedFuns = new Set();
 
-        function addToSelected(item, type) {
-            item = item.trim();
-            if (item === '') return;
+    function showJobTitleSuggestions(input) {
+        const suggestionsContainer = document.getElementById('job-title-suggestions');
+        suggestionsContainer.innerHTML = '';
+        suggestionsContainer.style.display = 'none';
 
-            let selectedSet;
-            let displayFunction;
-            let inputElement;
+        const inputValue = input.value.toLowerCase();
+        const suggestions = jobTitles.filter(title => title.toLowerCase().includes(inputValue));
 
-            if (type === 'skills') {
-                selectedSet = selectedSkills;
-                displayFunction = updateSelectedSkillsDisplay;
-                inputElement = document.querySelector('#skills-container input');
-            } else if (type === 'interests') {
-                selectedSet = selectedInterests;
-                displayFunction = updateSelectedInterestsDisplay;
-                inputElement = document.querySelector('#interests-container input');
-            } else if (type === 'funs') {
-                selectedSet = selectedFuns;
-                displayFunction = updateSelectedFunsDisplay;
-                inputElement = document.querySelector('#funs-container input');
-            }
+        if (suggestions.length > 0) {
+            suggestions.forEach(suggestion => {
+                const suggestionItem = document.createElement("div");
+                suggestionItem.className = "suggestion-item";
+                suggestionItem.textContent = suggestion;
 
-            if (!selectedSet.has(item)) {
-                selectedSet.add(item);
-                displayFunction();
+                suggestionItem.onmousedown = () => {  // Use onmousedown instead of onclick
+                    input.value = suggestion;
+                    suggestionsContainer.style.display = 'none';
+                };
+
+                suggestionsContainer.appendChild(suggestionItem);
+            });
+            suggestionsContainer.style.display = 'block';
+        }
+    }
+
+    function addToSelected(item, type) {
+        item = item.trim();
+        if (item === '') return;
+
+        let selectedSet;
+        let displayFunction;
+        let inputElement;
+
+        if (type === 'skills') {
+            selectedSet = selectedSkills;
+            displayFunction = updateSelectedSkillsDisplay;
+            inputElement = document.querySelector('#skills-container input');
+        } else if (type === 'interests') {
+            selectedSet = selectedInterests;
+            displayFunction = updateSelectedInterestsDisplay;
+            inputElement = document.querySelector('#interests-container input');
+        } else if (type === 'funs') {
+            selectedSet = selectedFuns;
+            displayFunction = updateSelectedFunsDisplay;
+            inputElement = document.querySelector('#funs-container input');
+        }
+
+        if (!selectedSet.has(item)) {
+            selectedSet.add(item);
+            displayFunction();
+            updateHiddenInputs();
+            inputElement.value = '';
+        }
+    }
+
+    function updateSelectedSkillsDisplay() {
+        const display = document.getElementById("selected-skills");
+        display.innerHTML = '';
+        selectedSkills.forEach(skill => {
+            const skillDiv = document.createElement("div");
+            skillDiv.className = "selected-item";
+            skillDiv.textContent = skill;
+
+            const removeButton = document.createElement("button");
+            removeButton.className = "remove-button";
+            removeButton.textContent = "✖";
+            removeButton.onclick = () => {
+                selectedSkills.delete(skill);
+                updateSelectedSkillsDisplay();
                 updateHiddenInputs();
-                inputElement.value = ''; // Reset input after adding
-                console.log(`Added ${item} to ${type}`);
-            } else {
-                console.log(`${item} is already selected in ${type}`);
-            }
-        }
+            };
 
+            skillDiv.appendChild(removeButton);
+            display.appendChild(skillDiv);
+        });
+    }
         function updateSelectedSkillsDisplay() {
-            const display = document.getElementById("selected-skills");
-            display.innerHTML = '';
-            selectedSkills.forEach(skill => {
-                const skillDiv = document.createElement("div");
-                skillDiv.className = "selected-item";
-                skillDiv.textContent = skill;
+        const display = document.getElementById("selected-skills");
+        display.innerHTML = '';
+        selectedSkills.forEach(skill => {
+            const skillDiv = document.createElement("div");
+            skillDiv.className = "selected-item";
+            skillDiv.textContent = skill;
 
-                const removeButton = document.createElement("button");
-                removeButton.className = "remove-button";
-                removeButton.textContent = "✖";
-                removeButton.onclick = () => {
-                    selectedSkills.delete(skill);
-                    updateSelectedSkillsDisplay();
-                    updateHiddenInputs();
-                };
+            const removeButton = document.createElement("button");
+            removeButton.className = "remove-button";
+            removeButton.textContent = "✖";
+            removeButton.onclick = () => {
+                selectedSkills.delete(skill);
+                updateSelectedSkillsDisplay();
+                updateHiddenInputs();
+            };
 
-                skillDiv.appendChild(removeButton);
-                display.appendChild(skillDiv);
-            });
-        }
+            skillDiv.appendChild(removeButton);
+            display.appendChild(skillDiv);
+        });
+    }
 
-        function updateSelectedInterestsDisplay() {
-            const display = document.getElementById("selected-interests");
-            display.innerHTML = '';
-            selectedInterests.forEach(interest => {
-                const interestDiv = document.createElement("div");
-                interestDiv.className = "selected-item";
-                interestDiv.textContent = interest;
+    // Define updateSelectedInterestsDisplay
+    function updateSelectedInterestsDisplay() {
+        const display = document.getElementById("selected-interests");
+        display.innerHTML = '';
+        selectedInterests.forEach(interest => {
+            const interestDiv = document.createElement("div");
+            interestDiv.className = "selected-item";
+            interestDiv.textContent = interest;
 
-                const removeButton = document.createElement("button");
-                removeButton.className = "remove-button";
-                removeButton.textContent = "✖";
-                removeButton.onclick = () => {
-                    selectedInterests.delete(interest);
-                    updateSelectedInterestsDisplay();
-                    updateHiddenInputs();
-                };
+            const removeButton = document.createElement("button");
+            removeButton.className = "remove-button";
+            removeButton.textContent = "✖";
+            removeButton.onclick = () => {
+                selectedInterests.delete(interest);
+                updateSelectedInterestsDisplay();
+                updateHiddenInputs();
+            };
 
-                interestDiv.appendChild(removeButton);
-                display.appendChild(interestDiv);
-            });
-        }
+            interestDiv.appendChild(removeButton);
+            display.appendChild(interestDiv);
+        });
+    }
 
-        function updateSelectedFunsDisplay() {
-            const display = document.getElementById("selected-funs");
-            display.innerHTML = '';
-            selectedFuns.forEach(fun => {
-                const funDiv = document.createElement("div");
-                funDiv.className = "selected-item";
-                funDiv.textContent = fun;
+    // Define updateSelectedFunsDisplay
+    function updateSelectedFunsDisplay() {
+        const display = document.getElementById("selected-funs");
+        display.innerHTML = '';
+        selectedFuns.forEach(fun => {
+            const funDiv = document.createElement("div");
+            funDiv.className = "selected-item";
+            funDiv.textContent = fun;
 
-                const removeButton = document.createElement("button");
-                removeButton.className = "remove-button";
-                removeButton.textContent = "✖";
-                removeButton.onclick = () => {
-                    selectedFuns.delete(fun);
-                    updateSelectedFunsDisplay();
-                    updateHiddenInputs();
-                };
+            const removeButton = document.createElement("button");
+            removeButton.className = "remove-button";
+            removeButton.textContent = "✖";
+            removeButton.onclick = () => {
+                selectedFuns.delete(fun);
+                updateSelectedFunsDisplay();
+                updateHiddenInputs();
+            };
 
-                funDiv.appendChild(removeButton);
-                display.appendChild(funDiv);
-            });
-        }
+            funDiv.appendChild(removeButton);
+            display.appendChild(funDiv);
+        });
+    }
 
-        function updateHiddenInputs() {
-            document.getElementById("hidden-skills").value = Array.from(selectedSkills).join(',');
-            document.getElementById("hidden-interests").value = Array.from(selectedInterests).join(',');
-            document.getElementById("hidden-funs").value = Array.from(selectedFuns).join(',');
-        }
 
-        function showSuggestions(input, type) {
-            const suggestionsContainer = document.getElementById(`${type}-suggestions`);
-            suggestionsContainer.innerHTML = '';
-            suggestionsContainer.style.display = 'none';
+    function updateHiddenInputs() {
+        document.getElementById("hidden-skills").value = Array.from(selectedSkills).join(',');
+        document.getElementById("hidden-interests").value = Array.from(selectedInterests).join(',');
+        document.getElementById("hidden-funs").value = Array.from(selectedFuns).join(',');
+    }
 
-            const inputValue = input.value.toLowerCase();
-            let suggestions = [];
+    function showSuggestions(input, type) {
+        const suggestionsContainer = document.getElementById(`${type}-suggestions`);
+        suggestionsContainer.innerHTML = '';
+        suggestionsContainer.style.display = 'none';
 
+        const inputValue = input.value.toLowerCase();
+        let suggestions = [];
+        if (inputValue !== "") {
             if (type === 'skills') {
                 suggestions = skills.filter(skill => skill.toLowerCase().includes(inputValue));
             } else if (type === 'interests') {
@@ -140,40 +186,50 @@
                     suggestionItem.className = "suggestion-item";
                     suggestionItem.textContent = suggestion;
 
-                    suggestionItem.onclick = () => {
-                        console.log(`Suggestion clicked: ${suggestion}`);
+                    suggestionItem.onmousedown = () => {  // Use onmousedown here as well
                         addToSelected(suggestion, type);
-                        suggestionsContainer.style.display = 'none'; // Hide suggestions after selection
+                        suggestionsContainer.style.display = 'none';
                     };
 
                     suggestionsContainer.appendChild(suggestionItem);
                 });
-                suggestionsContainer.style.display = 'block'; // Show suggestions
+                suggestionsContainer.style.display = 'block';
             }
         }
+    }
 
-        function hideSuggestions(type) {
-            {#const suggestionsContainer = document.getElementById(`${type}-suggestions`);#}
-            {#suggestionsContainer.style.display = 'none'; // Hide suggestions#}
-        }
-    </script>
+    function hideSuggestions(type) {
+        setTimeout(() => {  // Delay hiding the suggestions to allow mousedown to register
+            const suggestionsContainer = document.getElementById(`${type}-suggestions`);
+            suggestionsContainer.style.display = 'none';
+        }, 200);
+    }
+</script>
 
-    <h2>Hilf mit und trainiere die KI</h2>
-    <form method="post">
-        {% csrf_token %}
+<h2>Hilf mit und trainiere die KI</h2>
+<form method="post">
+    {% csrf_token %}
+    <label>Aktueller Job-Titel:</label>
+    <div id="job-title-container" style="position: relative;">
+        <input type="text" name="job_title" class="dynamic-input" placeholder="Job-Titel" required
+               oninput="showJobTitleSuggestions(this)" onblur="hideSuggestions('job-title')">
+        <div id="job-title-suggestions" class="suggestions"></div>
+    </div>
 
-{#        <label>Nehme an der Verlosung teil!</label>#}
-{#        <input type="email" name="email" placeholder="mail@timostreich.de" class="dynamic-input">#}
+    <label>Zufriedenheit mit dem Job (Skala 1-10)</label>
+    <input type="range" name="satisfaction" class="slider" min="1" max="10" value="10" required>
+    <div style="text-align: center;">Aktuelle Zufriedenheit: <span id="satisfaction-value">10</span></div>
 
-        <label>Was kann ich?</label>
-        <div id="selected-skills"></div>
-        <div id="skills-container" style="position: relative;">
-            <input type="text" placeholder="Was kann ich?" class="dynamic-input"
-                   oninput="showSuggestions(this, 'skills')" onblur="hideSuggestions('skills')">
-            <div id="skills-suggestions" class="suggestions"></div>
-        </div>
-        <input type="hidden" name="skills" id="hidden-skills" value="">
-        <button type="button" onclick="addToSelected(document.querySelector('#skills-container input').value, 'skills')">+</button><br>
+    <label>Was kann ich?</label>
+    <div id="selected-skills"></div>
+    <div id="skills-container" style="position: relative;">
+        <input type="text" placeholder="Was kann ich?" class="dynamic-input"
+               oninput="showSuggestions(this, 'skills')" onblur="hideSuggestions('skills')">
+        <div id="skills-suggestions" class="suggestions"></div>
+    </div>
+    <input type="hidden" name="skills" id="hidden-skills" value="">
+    <button type="button" onclick="addToSelected(document.querySelector('#skills-container input').value, 'skills')">+</button>
+    <br>
 
         <label>Was interessiert mich?</label>
         <div id="selected-interests"></div>
@@ -183,9 +239,12 @@
             <div id="interests-suggestions" class="suggestions"></div>
         </div>
         <input type="hidden" name="interests" id="hidden-interests" value="">
-        <button type="button" onclick="addToSelected(document.querySelector('#interests-container input').value, 'interests')">+</button><br>
+        <button type="button"
+                onclick="addToSelected(document.querySelector('#interests-container input').value, 'interests')">+
+        </button>
+        <br>
 
-        <label>Was mache ich gerne?</label>
+        <label>Was macht mir Spaß?</label>
         <div id="selected-funs"></div>
         <div id="funs-container" style="position: relative;">
             <input type="text" placeholder="Was macht mir Spaß?" class="dynamic-input"
@@ -193,26 +252,19 @@
             <div id="funs-suggestions" class="suggestions"></div>
         </div>
         <input type="hidden" name="funs" id="hidden-funs" value="">
-        <button type="button" onclick="addToSelected(document.querySelector('#funs-container input').value, 'funs')">+</button><br>
-
-        <label>Zufriedenheit mit dem Job (Skala 1-10)</label>
-        <input type="range" name="satisfaction" class="slider" min="1" max="10" value="10" required>
-        <div style="text-align: center;">Aktuelle Zufriedenheit: <span id="satisfaction-value">10</span></div>
-
-        <label>Job-Titel:</label>
-        <input type="text" name="job_title" class="dynamic-input" placeholder="Job-Titel" required>
+        <button type="button" onclick="addToSelected(document.querySelector('#funs-container input').value, 'funs')">+
+        </button>
+        <br>
 
         <button type="submit" class="submit-button">Profil speichern</button>
     </form>
 
-    <script>
-        // Update satisfaction value display
-        const satisfactionSlider = document.querySelector('input[name="satisfaction"]');
-        const satisfactionValueDisplay = document.getElementById('satisfaction-value');
+<script>
+    const satisfactionSlider = document.querySelector('input[name="satisfaction"]');
+    const satisfactionValueDisplay = document.getElementById('satisfaction-value');
 
-        satisfactionSlider.addEventListener('input', () => {
-            satisfactionValueDisplay.textContent = satisfactionSlider.value;
-        });
-    </script>
-
+    satisfactionSlider.addEventListener('input', () => {
+        satisfactionValueDisplay.textContent = satisfactionSlider.value;
+    });
+</script>
 {% endblock %}

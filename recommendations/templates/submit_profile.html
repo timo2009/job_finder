@@ -21,7 +21,7 @@
         const inputValue = input.value.toLowerCase();
         const suggestions = jobTitles.filter(title => title.toLowerCase().includes(inputValue));
 
-        if (suggestions.length > 0) {
+        if (suggestions.length > 0 && inputValue !== "") {
             suggestions.forEach(suggestion => {
                 const suggestionItem = document.createElement("div");
                 suggestionItem.className = "suggestion-item";

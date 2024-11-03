@@ -136,7 +136,9 @@ button:hover {
     align-items: flex-start; /* Ausrichtung links */
     margin: 10px 0; /* Abstand nach oben und unten */
 }
-
+.text-center {
+    text-align: center;
+}
 .alert {
     margin: 20px auto;
     max-width: 600px;

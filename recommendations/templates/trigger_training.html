@@ -5,6 +5,9 @@
 {% block content %}
         <form method="post" class="text-center">
             <h1>Modelltraining Auslösen</h1>
+            <p class="text-center">
+                Um das Model neu zu trainieren, erst auf der Admin-Seite prüfen, ob die Daten korrekt sind.
+            </p>
             {% csrf_token %}
             <button type="submit" class="submit-button">Training starten</button>
             {% if messages %}
@@ -14,6 +17,5 @@
                     {% endfor %}
                 </div>
             {% endif %}
-
         </form>
 {% endblock %}

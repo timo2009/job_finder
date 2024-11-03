@@ -8,12 +8,14 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from celery.exceptions import OperationalError
 
+
 @staff_member_required  # Only for administrators
 def trigger_training(request):
     if request.method == 'POST':
         try:
             result = train_model.delay()  # Asynchronous call of the function
-            messages.success(request, "Training has been successfully initiated! Result: " + str(result))  # Success message
+            messages.success(request,
+                             "Training has been successfully initiated! Result: " + str(result))  # Success message
         except OperationalError as e:
             messages.error(request, f"Celery Error: {str(e)}")  # Error message
         except Exception as e:
@@ -23,6 +25,7 @@ def trigger_training(request):
 
     # If the method is not POST, render the appropriate template
     return render(request, 'trigger_training.html')  # Replace 'your_template.html' with your template name
+
 
 def submit_profile(request):
     if request.method == 'POST':
@@ -110,7 +113,8 @@ def get_recommendation(request):
 
             # Füge die gewählten Interessen hinzu oder erstelle sie
             for interest_name in interests_names:
-                interest, created = Interest.objects.get_or_create(name=interest_name)  # Suche oder erstelle das Interesse
+                interest, created = Interest.objects.get_or_create(
+                    name=interest_name)  # Suche oder erstelle das Interesse
                 profile.interests.add(interest)  # Füge das Interesse zum Profil hinzu
 
             # Füge die gewählten Funs hinzu oder erstelle sie
@@ -136,6 +140,6 @@ def get_recommendation(request):
         'funs': json.dumps(funs)
     })
 
-def impressum(request):
 
+def impressum(request):
     return render(request, 'impressum.html', {})

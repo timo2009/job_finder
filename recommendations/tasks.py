@@ -13,6 +13,7 @@ from .models import PersonalityProfile, DreamJob
 def test_task():
     return "Task completed!"
 
+
 @app.task
 def train_model():
     # Daten laden

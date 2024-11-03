@@ -183,10 +183,21 @@
                 suggestionsContainer.style.display = 'none';
             }, 200);
         }
+
+        function validateForm() {
+            const jobTitle = document.querySelector('input[name="job_title"]').value.trim();
+
+            if (selectedSkills.size === 0 || selectedInterests.size === 0 || selectedFuns.size === 0 || jobTitle === '') {
+                alert("Bitte wählen Sie mindestens einen Skill, ein Interesse, ein Hobby und einen Jobtitel aus.");
+                return false;
+            }
+            return true;
+        }
+
     </script>
 
     <h2>Hilf mit und trainiere die KI</h2>
-    <form method="post">
+    <form method="post" onsubmit="return validateForm()">
         {% csrf_token %}
         <label>Aktueller Job-Titel:</label>
         <div id="job-title-container" style="position: relative;">
@@ -206,7 +217,7 @@
                    oninput="showSuggestions(this, 'skills')" onblur="hideSuggestions('skills')">
             <div id="skills-suggestions" class="suggestions"></div>
         </div>
-        <input type="hidden" name="skills" id="hidden-skills" value="">
+        <input required type="hidden" name="skills" id="hidden-skills" value="">
         <button type="button"
                 onclick="addToSelected(document.querySelector('#skills-container input').value, 'skills')">+
         </button>
@@ -219,7 +230,7 @@
                    oninput="showSuggestions(this, 'interests')" onblur="hideSuggestions('interests')">
             <div id="interests-suggestions" class="suggestions"></div>
         </div>
-        <input type="hidden" name="interests" id="hidden-interests" value="">
+        <input required type="hidden" name="interests" id="hidden-interests" value="">
         <button type="button"
                 onclick="addToSelected(document.querySelector('#interests-container input').value, 'interests')">+
         </button>
@@ -232,7 +243,7 @@
                    oninput="showSuggestions(this, 'funs')" onblur="hideSuggestions('funs')">
             <div id="funs-suggestions" class="suggestions"></div>
         </div>
-        <input type="hidden" name="funs" id="hidden-funs" value="">
+        <input required type="hidden" name="funs" id="hidden-funs" value="">
         <button type="button" onclick="addToSelected(document.querySelector('#funs-container input').value, 'funs')">+
         </button>
         <br>

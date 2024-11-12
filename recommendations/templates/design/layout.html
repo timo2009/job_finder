@@ -15,7 +15,7 @@
         <li><a href="{% url 'get_recommendation' %}">Job finden</a></li>
         <li><a href="{% url 'submit_profile' %}">KI trainieren</a></li>
         {% if user.is_authenticated and user.is_staff %}
-            <li><a href="{% url 'trigger_training' %}">Daten auf KI übertragen (Admin)</a></li>
+            <li><a href="{% url 'model' %}">KI Verwaltung</a></li>
         {% endif %}
         <li><a href="/admin">Admin</a></li>
     </ul>

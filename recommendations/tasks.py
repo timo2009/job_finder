@@ -1,13 +1,13 @@
 # tasks.py
 from datetime import datetime, timedelta
 import joblib
+import pytz
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.model_selection import train_test_split
-from job_finder.celery import app
-import pytz
-from .models import PersonalityProfile, DreamJob
 
+from job_finder.celery import app
+from recommendations.models import PersonalityProfile, DreamJob
 
 @app.task
 def test_task():

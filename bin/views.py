@@ -1,13 +1,16 @@
 import joblib
 import json
-from .models import PersonalityProfile, DreamJob, Skill, Interest, Fun
-from .tasks import train_model  # Importiere die train_model-Task
+from recommendations.models import PersonalityProfile, DreamJob, Skill, Interest, Fun
+from recommendations.tasks import train_model  # Importiere die train_model-Task
 from django.contrib.admin.views.decorators import staff_member_required  # Importiere den Dekorator
 
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from celery.exceptions import OperationalError
 
+@staff_member_required
+def model_index(request):
+    return render(request, 'model/index.html')
 
 @staff_member_required  # Only for administrators
 def trigger_training(request):
@@ -24,7 +27,7 @@ def trigger_training(request):
         return redirect('trigger_training')  # Redirection to the same page
 
     # If the method is not POST, render the appropriate template
-    return render(request, 'trigger_training.html')  # Replace 'your_template.html' with your template name
+    return render(request, 'model/trigger_training.html')  # Replace 'your_template.html' with your template name
 
 
 def submit_profile(request):
@@ -63,7 +66,7 @@ def submit_profile(request):
         # Zuordnung des Jobs
         DreamJob.objects.create(profile=profile, job_title=job_title, satisfaction=satisfaction)
 
-        return render(request, 'submit_profile_result.html')
+        return render(request, 'interface/submit_profile_result.html')
 
     # Wenn die Anfrage nicht POST ist, alle verfügbaren Fähigkeiten und Interessen abrufen
     skills = list(Skill.objects.values_list('name', flat=True))  # All skills
@@ -71,7 +74,7 @@ def submit_profile(request):
     funs = list(Fun.objects.values_list('name', flat=True))  # All fun activities
     jobs = list(set(DreamJob.objects.values_list('job_title', flat=True)))  # Alle Titel sind einzigartig
 
-    return render(request, 'submit_profile.html', {
+    return render(request, 'interface/submit_profile.html', {
         'skills': json.dumps(skills),
         'interests': json.dumps(interests),
         'funs': json.dumps(funs),
@@ -125,7 +128,7 @@ def get_recommendation(request):
             # Speichere den empfohlenen Job
             DreamJob.objects.create(profile=profile, job_title=recommended_job, satisfaction=int(satisfaction))
 
-        return render(request, 'get_recommendation_result.html', {
+        return render(request, 'interface/get_recommendation_result.html', {
             'recommended_job': recommended_job,
         })
 
@@ -134,7 +137,7 @@ def get_recommendation(request):
     interests = list(Interest.objects.values_list('name', flat=True))  # All interests
     funs = list(Fun.objects.values_list('name', flat=True))  # All fun activities
 
-    return render(request, 'get_recommendation.html', {
+    return render(request, 'interface/get_recommendation.html', {
         'skills': json.dumps(skills),
         'interests': json.dumps(interests),
         'funs': json.dumps(funs)
@@ -142,4 +145,4 @@ def get_recommendation(request):
 
 
 def impressum(request):
-    return render(request, 'impressum.html', {})
+    return render(request, 'interface/impressum.html', {})

@@ -1,42 +1,18 @@
-{% extends "layout.html" %}
+<!-- recommendations/templates/get_recommendation.html -->
+{% extends "design/layout.html" %}
 
-{% block title %}KI trainieren{% endblock %}
+{% block title %}Job-Empfehlung{% endblock %}
 
 {% block content %}
+
     <script>
         let skills = JSON.parse('{{ skills|safe }}');
         let interests = JSON.parse('{{ interests|safe }}');
         let funs = JSON.parse('{{ funs|safe }}');
-        let jobTitles = JSON.parse('{{ jobs|safe }}');
 
         const selectedSkills = new Set();
         const selectedInterests = new Set();
         const selectedFuns = new Set();
-
-        function showJobTitleSuggestions(input) {
-            const suggestionsContainer = document.getElementById('job-title-suggestions');
-            suggestionsContainer.innerHTML = '';
-            suggestionsContainer.style.display = 'none';
-
-            const inputValue = input.value.toLowerCase();
-            const suggestions = jobTitles.filter(title => title.toLowerCase().includes(inputValue));
-
-            if (suggestions.length > 0 && inputValue !== "") {
-                suggestions.forEach(suggestion => {
-                    const suggestionItem = document.createElement("div");
-                    suggestionItem.className = "suggestion-item";
-                    suggestionItem.textContent = suggestion;
-
-                    suggestionItem.onmousedown = () => {  // Use onmousedown instead of onclick
-                        input.value = suggestion;
-                        suggestionsContainer.style.display = 'none';
-                    };
-
-                    suggestionsContainer.appendChild(suggestionItem);
-                });
-                suggestionsContainer.style.display = 'block';
-            }
-        }
 
         function addToSelected(item, type) {
             item = item.trim();
@@ -64,7 +40,7 @@
                 selectedSet.add(item);
                 displayFunction();
                 updateHiddenInputs();
-                inputElement.value = '';
+                inputElement.value = ''; // Reset input after adding
             }
         }
 
@@ -90,7 +66,6 @@
             });
         }
 
-        // Define updateSelectedInterestsDisplay
         function updateSelectedInterestsDisplay() {
             const display = document.getElementById("selected-interests");
             display.innerHTML = '';
@@ -113,7 +88,6 @@
             });
         }
 
-        // Define updateSelectedFunsDisplay
         function updateSelectedFunsDisplay() {
             const display = document.getElementById("selected-funs");
             display.innerHTML = '';
@@ -136,7 +110,6 @@
             });
         }
 
-
         function updateHiddenInputs() {
             document.getElementById("hidden-skills").value = Array.from(selectedSkills).join(',');
             document.getElementById("hidden-interests").value = Array.from(selectedInterests).join(',');
@@ -151,6 +124,7 @@
             const inputValue = input.value.toLowerCase();
             let suggestions = [];
             if (inputValue !== "") {
+
                 if (type === 'skills') {
                     suggestions = skills.filter(skill => skill.toLowerCase().includes(inputValue));
                 } else if (type === 'interests') {
@@ -165,30 +139,26 @@
                         suggestionItem.className = "suggestion-item";
                         suggestionItem.textContent = suggestion;
 
-                        suggestionItem.onmousedown = () => {  // Use onmousedown here as well
+                        suggestionItem.onclick = () => {
                             addToSelected(suggestion, type);
-                            suggestionsContainer.style.display = 'none';
+                            suggestionsContainer.style.display = 'none'; // Hide suggestions after selection
                         };
 
                         suggestionsContainer.appendChild(suggestionItem);
                     });
-                    suggestionsContainer.style.display = 'block';
+                    suggestionsContainer.style.display = 'block'; // Show suggestions
                 }
             }
         }
 
         function hideSuggestions(type) {
-            setTimeout(() => {  // Delay hiding the suggestions to allow mousedown to register
-                const suggestionsContainer = document.getElementById(`${type}-suggestions`);
-                suggestionsContainer.style.display = 'none';
-            }, 200);
+            {#const suggestionsContainer = document.getElementById(`${type}-suggestions`);#}
+            {#suggestionsContainer.style.display = 'none'; // Hide suggestions#}
         }
 
         function validateForm() {
-            const jobTitle = document.querySelector('input[name="job_title"]').value.trim();
-
-            if (selectedSkills.size === 0 || selectedInterests.size === 0 || selectedFuns.size === 0 || jobTitle === '') {
-                alert("Bitte wählen Sie mindestens einen Skill, ein Interesse, ein Hobby und einen Jobtitel aus.");
+            if (selectedSkills.size === 0 || selectedInterests.size === 0 || selectedFuns.size === 0) {
+                alert("Bitte wählen Sie mindestens einen Skill, ein Interesse und einen Job aus.");
                 return false;
             }
             return true;
@@ -196,19 +166,9 @@
 
     </script>
 
-    <h2>Hilf mit und trainiere die KI</h2>
+    <h2>Job-Empfehlung</h2>
     <form method="post" onsubmit="return validateForm()">
         {% csrf_token %}
-        <label>Aktueller Job-Titel:</label>
-        <div id="job-title-container" style="position: relative;">
-            <input type="text" name="job_title" class="dynamic-input" placeholder="Job-Titel" required
-                   oninput="showJobTitleSuggestions(this)" onblur="hideSuggestions('job-title')">
-            <div id="job-title-suggestions" class="suggestions"></div>
-        </div>
-
-        <label>Zufriedenheit mit dem Job (Skala 1-10)</label>
-        <input type="range" name="satisfaction" class="slider" min="1" max="10" value="10" required>
-        <div style="text-align: center;">Aktuelle Zufriedenheit: <span id="satisfaction-value">10</span></div>
 
         <label>Was kann ich?</label>
         <div id="selected-skills"></div>
@@ -248,15 +208,7 @@
         </button>
         <br>
 
-        <button type="submit" class="submit-button">Profil speichern</button>
+        <button type="submit" class="submit-button">Empfehlung erhalten</button>
     </form>
 
-    <script>
-        const satisfactionSlider = document.querySelector('input[name="satisfaction"]');
-        const satisfactionValueDisplay = document.getElementById('satisfaction-value');
-
-        satisfactionSlider.addEventListener('input', () => {
-            satisfactionValueDisplay.textContent = satisfactionSlider.value;
-        });
-    </script>
 {% endblock %}

@@ -1,0 +1,8 @@
+{% extends "design/layout.html" %}
+
+{% block title %}Model verwaltung{% endblock %}
+
+{% block content %}
+    <a class="submit-button" style="text-decoration-line: none;" href="{% url 'trigger_training' %}">Model trainieren</a>
+    <a class="submit-button" style="text-decoration-line: none;" href="/admin">Trainingsdaten verwalten</a>
+{% endblock %}

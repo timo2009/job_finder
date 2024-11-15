@@ -11,4 +11,6 @@ urlpatterns = [
     path('impressum/', views.impressum, name='impressum'),
     path('get_recommendation', views.get_recommendation, name='get_recommendation'),
     path('get_recommendation', views.get_recommendation, name='get_recommendation'),
+    path('save_feedback/', views.save_feedback, name='save_feedback'),
+
 ]

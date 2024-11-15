@@ -16,8 +16,9 @@
         <li><a href="{% url 'submit_profile' %}">KI trainieren</a></li>
         {% if user.is_authenticated and user.is_staff %}
             <li><a href="{% url 'model' %}">KI Verwaltung</a></li>
+        {% else %}
+            <li><a href="/admin">Login</a></li>
         {% endif %}
-        <li><a href="/admin">Admin</a></li>
     </ul>
 </nav>
 

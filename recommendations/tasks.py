@@ -39,7 +39,7 @@ def train_model():
         interests = list(profile.interests.values_list('name', flat=True))
         funs = list(profile.funs.values_list('name', flat=True))
 
-        profile_data = ' '.join(skills + interests + funs)
+        profile_data = ', '.join(skills) + ';' + ', '.join(interests) + ';' + ', '.join(funs)
         data.append(profile_data)
         labels.append(job.job_title)
 
